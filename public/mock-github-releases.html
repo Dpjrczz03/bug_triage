@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draft v1.4.0 Release Notes (AI Compiled) · dhruv/lemma</title>
+    <!-- Google Fonts: Inter & GitHub code font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --color-canvas-default: #0d1117;
+            --color-canvas-subtle: #161b22;
+            --color-border-default: #30363d;
+            --color-fg-default: #c9d1d9;
+            --color-fg-muted: #8b949e;
+            --color-accent-fg: #58a6ff;
+            --color-success-fg: #3fb950;
+            --color-severe-fg: #db6d28;
+        }
+
+        body {
+            background-color: var(--color-canvas-default);
+            color: var(--color-fg-default);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* GitHub Style Header */
+        header {
+            background-color: var(--color-canvas-subtle);
+            border-bottom: 1px solid var(--color-border-default);
+            padding: 16px 32px;
+        }
+
+        .repo-nav {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .repo-nav i {
+            font-size: 20px;
+        }
+
+        .repo-nav a {
+            color: var(--color-accent-fg);
+            text-decoration: none;
+        }
+
+        .repo-nav span {
+            color: var(--color-fg-muted);
+        }
+
+        /* Tabs bar */
+        .tabs-container {
+            background-color: var(--color-canvas-subtle);
+            border-bottom: 1px solid var(--color-border-default);
+            padding: 0 32px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 16px;
+        }
+
+        .tab {
+            padding: 8px 12px;
+            color: var(--color-fg-default);
+            text-decoration: none;
+            border-bottom: 2px solid transparent;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tab.active {
+            border-bottom-color: #f78166;
+            font-weight: 600;
+        }
+
+        .tab i {
+            color: var(--color-fg-muted);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 980px;
+            margin: 40px auto;
+            padding: 0 24px;
+        }
+
+        /* Banner badge */
+        .draft-banner {
+            background-color: rgba(219, 109, 40, 0.1);
+            border: 1px solid rgba(219, 109, 40, 0.2);
+            color: var(--color-severe-fg);
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        /* Release card layout */
+        .release-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid var(--color-border-default);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        .release-title-area h1 {
+            font-size: 24px;
+            margin: 0 0 8px 0;
+            font-weight: 600;
+        }
+
+        .release-meta {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            color: var(--color-fg-muted);
+            font-size: 12px;
+        }
+
+        .badge-draft {
+            border: 1px solid var(--color-severe-fg);
+            color: var(--color-severe-fg);
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .badge-tag {
+            background-color: rgba(48, 54, 61, 0.5);
+            border: 1px solid var(--color-border-default);
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-family: var(--font-mono);
+        }
+
+        /* Markdown rendered container */
+        .release-body {
+            font-size: 16px;
+            color: #c9d1d9;
+        }
+
+        .release-body h1 {
+            font-size: 22px;
+            border-bottom: 1px solid var(--color-border-default);
+            padding-bottom: 8px;
+            margin-top: 24px;
+        }
+
+        .release-body h2 {
+            font-size: 18px;
+            margin-top: 24px;
+            color: #58a6ff;
+        }
+
+        .release-body ul {
+            padding-left: 20px;
+        }
+
+        .release-body li {
+            margin-bottom: 8px;
+        }
+
+        .alert-warning-box {
+            background-color: rgba(248, 81, 73, 0.1);
+            border: 1px solid rgba(248, 81, 73, 0.2);
+            border-radius: 6px;
+            padding: 16px;
+            margin-bottom: 20px;
+            color: #ff7b72;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="repo-nav">
+            <i class="fa-brands fa-github"></i>
+            <a href="#">dhruv</a>
+            <span>/</span>
+            <a href="#">lemma</a>
+        </div>
+    </header>
+
+    <div class="tabs-container">
+        <div class="tabs">
+            <a href="#" class="tab"><i class="fa-solid fa-code"></i> Code</a>
+            <a href="#" class="tab"><i class="fa-solid fa-circle-dot"></i> Issues</a>
+            <a href="#" class="tab"><i class="fa-solid fa-code-pull-request"></i> Pull Requests</a>
+            <a href="#" class="tab active"><i class="fa-solid fa-box-open"></i> Releases</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="draft-banner">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>This is a simulated GitHub draft release view generated by Lemma Release Operator. Connect your GitHub token in the `.env` file to publish directly to a live repository.</span>
+        </div>
+
+        <div class="release-header">
+            <div class="release-title-area">
+                <h1>v1.4.0 Release Notes (AI Compiled)</h1>
+                <div class="release-meta">
+                    <span class="badge-draft">Draft</span>
+                    <span class="badge-tag"><i class="fa-solid fa-tag"></i> v1.4.0-draft</span>
+                    <span>• Published in local simulation mode</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="release-body" id="release-content">
+            <!-- Notes populated here -->
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const rawNotes = localStorage.getItem("releaseNotes");
+            const releaseContent = document.getElementById("release-content");
+
+            if (rawNotes) {
+                // Render markdown content basic parser
+                let htmlNotes = rawNotes
+                    .replace(/# (.*)/g, '<h1>$1</h1>')
+                    .replace(/## (.*)/g, '<h2>$2</h2>') // fallback handling
+                    .replace(/>\s\[!WARNING\]/g, '<div class="alert-warning-box">')
+                    .replace(/>\s\*\*(.*?)\*\*:\s(.*)/g, '<strong>$1</strong>: $2</div>')
+                    .replace(/-\s\*\*(.*?)\*\*:\s(.*)/g, '<li><strong>$1</strong>: $2</li>')
+                    .replace(/\n\n/g, '<br/>')
+                    .replace(/\n/g, '<br/>');
+
+                // Adjust any headers that might not have matching index
+                htmlNotes = htmlNotes.replace(/<h2>undefined<\/h2>/g, '');
+                
+                // Re-replace headers cleaner
+                htmlNotes = htmlNotes
+                    .replace(/<h1>Release Notes - v1.4.0<\/h1>/g, '') // Hide redundant header
+                    .replace(/## Critical Bug Fixes (P1)/g, '<h2>Critical Bug Fixes (P1)</h2>')
+                    .replace(/## Feature Enhancements/g, '<h2>Feature Enhancements</h2>');
+
+                // Group list elements
+                htmlNotes = htmlNotes.replace(/(<li>.*<\/li>)/g, '<ul>$1</ul>');
+
+                releaseContent.innerHTML = htmlNotes;
+            } else {
+                releaseContent.innerHTML = "<p style='color: var(--color-fg-muted)'>No release notes found. Go to the dashboard and trigger generation first.</p>";
+            }
+        });
+    </script>
+</body>
+</html>

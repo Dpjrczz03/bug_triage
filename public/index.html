@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Bug Triage & Release Operator</title>
+    <!-- Google Fonts: Inter & JetBrains Mono for Console -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="brand">
+                <i class="fa-solid fa-microchip-ai brand-icon"></i>
+                <div class="brand-text">
+                    <h2>Lemma Triage</h2>
+                    <span>Release Operator v1.0</span>
+                </div>
+            </div>
+            
+            <nav class="nav-menu">
+                <a href="#triage" class="nav-item active" id="nav-triage">
+                    <i class="fa-solid fa-shield-bug"></i>
+                    <span>Triage Center</span>
+                </a>
+                <a href="#release" class="nav-item" id="nav-release">
+                    <i class="fa-solid fa-box-open"></i>
+                    <span>Release Hub</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="hackathon-tag">
+                    <i class="fa-solid fa-trophy"></i>
+                    <span>Gappy.AI Hackathon</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-bar">
+                <div class="header-title">
+                    <h1 id="page-title">Bug Triage Center</h1>
+                    <p id="page-subtitle">Ingest, analyze, and cluster raw feedback logs in real-time.</p>
+                </div>
+                <div class="system-status">
+                    <span class="status-indicator online"></span>
+                    <span>Lemma SDK Local Instance</span>
+                </div>
+            </header>
+
+            <!-- Triage Panel -->
+            <section id="triage-panel" class="dashboard-section">
+                <!-- Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>GitHub Issues Synced</h3>
+                            <p class="metric-value" id="metric-raw-count">0</p>
+                        </div>
+                        <div class="metric-icon bg-blue-tint">
+                            <i class="fa-solid fa-cloud-arrow-down"></i>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Triage Tickets Created</h3>
+                            <p class="metric-value" id="metric-ticket-count">0</p>
+                        </div>
+                        <div class="metric-icon bg-green-tint">
+                            <i class="fa-solid fa-ticket"></i>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Duplicates Intercepted</h3>
+                            <p class="metric-value" id="metric-dup-count">0</p>
+                        </div>
+                        <div class="metric-icon bg-red-tint">
+                            <i class="fa-solid fa-copy"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pipeline Control & Console Grid -->
+                <div class="control-grid">
+                    <!-- Console Terminal Panel -->
+                    <div class="panel-card console-panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fa-solid fa-terminal"></i>
+                                <h3>Lemma Agent Execution Terminal</h3>
+                            </div>
+                            <button class="btn btn-primary" id="btn-run-pipeline">
+                                <i class="fa-solid fa-play"></i> Run Ingestion & Triage
+                            </button>
+                        </div>
+                        <div class="console-body" id="console-output">
+                            <div class="console-placeholder">
+                                <i class="fa-solid fa-power-off"></i>
+                                <p>Click "Run Ingestion & Triage" to execute standard batch feedback and begin agent clustering.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tickets List Section -->
+                <div class="panel-card tickets-panel">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <i class="fa-solid fa-list-check"></i>
+                            <h3>Active Tickets Datastore</h3>
+                        </div>
+                    </div>
+                    <div class="tickets-table-container">
+                        <table class="tickets-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Source</th>
+                                    <th>Feedback / Issue</th>
+                                    <th>Cluster Name</th>
+                                    <th>Priority Score</th>
+                                    <th>Status Tracker</th>
+                                    <th>Details</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tickets-table-body">
+                                <tr>
+                                    <td colspan="7" class="table-empty">
+                                        <i class="fa-solid fa-database"></i>
+                                        <p>No active tickets found. Ingest feedback to populate.</p>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Release Panel (Hidden by Default) -->
+            <section id="release-panel" class="dashboard-section hidden">
+                <!-- Release Metrics Grid -->
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Release Readiness</h3>
+                            <p class="metric-value" id="metric-readiness">0%</p>
+                        </div>
+                        <div class="metric-icon bg-purple-tint">
+                            <i class="fa-solid fa-gauge-high"></i>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Bugs Squashed</h3>
+                            <p class="metric-value" id="metric-bugs-squashed">0</p>
+                        </div>
+                        <div class="metric-icon bg-cyan-tint">
+                            <i class="fa-solid fa-bug-slash"></i>
+                        </div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-info">
+                            <h3>Features Deployed</h3>
+                            <p class="metric-value" id="metric-features">0</p>
+                        </div>
+                        <div class="metric-icon bg-orange-tint">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="release-grid">
+                    <!-- Chart Analysis -->
+                    <div class="panel-card chart-panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fa-solid fa-chart-pie"></i>
+                                <h3>Data Analytics & Distribution</h3>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="priorityChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Release Notes Panel -->
+                    <div class="panel-card release-notes-panel">
+                        <div class="panel-header">
+                            <div class="panel-title">
+                                <i class="fa-solid fa-file-invoice"></i>
+                                <h3>Auto-Generated Release Notes</h3>
+                            </div>
+                            <div class="release-actions">
+                                <button class="btn btn-secondary btn-sm" id="btn-generate-release">
+                                    <i class="fa-solid fa-rotate"></i> Re-Generate
+                                </button>
+                                <button class="btn btn-primary btn-sm" id="btn-copy-notes">
+                                    <i class="fa-solid fa-copy"></i> Copy Markdown
+                                </button>
+                                <button class="btn btn-primary btn-sm" id="btn-publish-github" style="background: linear-gradient(135deg, #24292e 0%, #1f2327 100%); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);">
+                                    <i class="fa-brands fa-github"></i> Publish to GitHub
+                                </button>
+                            </div>
+                        </div>
+                        <div class="release-notes-content" id="release-notes-view">
+                            <div class="release-notes-placeholder">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                <p>Triage tickets must be ingested before Release Operator compiles notes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Ticket Detail Modal -->
+    <div class="modal hidden" id="ticket-modal">
+        <div class="modal-overlay" id="modal-overlay"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modal-ticket-id">Ticket Details</h3>
+                <button class="close-modal-btn" id="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="detail-row">
+                    <span class="detail-label">Original Text:</span>
+                    <p class="detail-value text-italic" id="detail-text"></p>
+                </div>
+                <div class="detail-row-grid">
+                    <div class="detail-row">
+                        <span class="detail-label">Priority:</span>
+                        <span id="detail-priority" class="badge"></span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Cluster:</span>
+                        <span id="detail-cluster" class="badge-cluster"></span>
+                    </div>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">Reproduction Steps:</span>
+                    <pre class="detail-code" id="detail-repro"></pre>
+                </div>
+                <div class="detail-row" id="detail-linear-row">
+                    <span class="detail-label">Linear Sync:</span>
+                    <a href="#" id="detail-linear-link" target="_blank" class="detail-value" style="color: var(--accent-amber); font-weight: 500; text-decoration: underline;"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Undo Notification Toast -->
+    <div id="undo-toast" class="undo-toast hidden">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fa-solid fa-circle-info" style="color: var(--accent-purple);"></i>
+            <span id="undo-toast-message"></span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px;">
+            <span id="undo-toast-timer" style="color: var(--accent-amber); font-weight: bold; font-size: 13px;">(5s)</span>
+            <button id="btn-undo-toast" class="btn-undo">Undo</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

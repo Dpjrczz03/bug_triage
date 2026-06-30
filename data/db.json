@@ -1,0 +1,41 @@
+[
+  {
+    "id": "TKT-4995",
+    "original_text": "coupon code malfunction - no coupons are being accepted!!",
+    "source": "GitHub",
+    "author": "Dpjrczz03",
+    "status": "Resolved",
+    "linear_url": "https://linear.app/demo/issue/LNR-1457",
+    "github_issue_number": 3,
+    "priority": "P1 - Critical",
+    "cluster": "Coupon Acceptance Issue",
+    "repro_steps": "1. Go to checkout.\n2. Enter any valid coupon code.\n3. Observe that the coupon is not accepted.",
+    "is_duplicate": false
+  },
+  {
+    "id": "TKT-5014",
+    "original_text": "coupon code button does not work! - when a correct coupon code is entered, the website reloads and goes back to home page!",
+    "source": "GitHub",
+    "author": "Dpjrczz03",
+    "status": "Open",
+    "linear_url": "https://linear.app/demo/issue/LNR-7567",
+    "github_issue_number": 2,
+    "priority": "P1 - Critical",
+    "cluster": "Coupon Acceptance Issue",
+    "repro_steps": "1. Enter a correct coupon code.\n2. Click the coupon code button.\n3. Observe: Website reloads and goes back to the home page.",
+    "is_duplicate": true
+  },
+  {
+    "id": "TKT-3461",
+    "original_text": "add to card button does not work - when the user clicks on add to cart button, he/she is redirected to the home page and the cart stays empty!",
+    "source": "GitHub",
+    "author": "Dpjrczz03",
+    "status": "Resolved",
+    "linear_url": "https://linear.app/demo/issue/LNR-8233",
+    "github_issue_number": 1,
+    "priority": "P1 - Critical",
+    "cluster": "Add to Cart Failure",
+    "repro_steps": "1. Navigate to any product page.\n2. Click the \"Add to Cart\" button.\n3. Observe redirection to the home page and an empty cart.",
+    "is_duplicate": false
+  }
+]

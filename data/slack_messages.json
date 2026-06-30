@@ -1,0 +1,26 @@
+[
+  {
+    "id": "s1",
+    "channel": "support-triage",
+    "text": "Hey team, getting multiple reports that the mobile login is broken on Chrome. Blank screen. Same issue reported on GitHub I think.",
+    "user": "support_agent_amy"
+  },
+  {
+    "id": "s2",
+    "channel": "support-triage",
+    "text": "Customer XYZ is furious because they got charged twice for the pro plan. Looks like a Stripe timeout issue on our end.",
+    "user": "support_agent_bob"
+  },
+  {
+    "id": "s3",
+    "channel": "support-triage",
+    "text": "Can we get an ETA on dark mode? Enterprise client asked for it today.",
+    "user": "sales_rep_john"
+  },
+  {
+    "id": "s4",
+    "channel": "support-triage",
+    "text": "The export to CSV button in the analytics tab is throwing a 500 error when the date range is > 30 days.",
+    "user": "qa_mike"
+  }
+]

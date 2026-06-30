@@ -1,0 +1,34 @@
+[
+  {
+    "id": "gh-1",
+    "title": "Bug: Login page crashes on mobile Chrome",
+    "body": "When I try to login using my Android phone on Chrome, the page just goes white and crashes. Please fix ASAP.",
+    "source": "github",
+    "author": "user123",
+    "status": "open"
+  },
+  {
+    "id": "gh-2",
+    "title": "Feature Request: Add dark mode",
+    "body": "It would be great if the dashboard had a dark mode option. My eyes hurt.",
+    "source": "github",
+    "author": "devdesigner",
+    "status": "open"
+  },
+  {
+    "id": "gh-3",
+    "title": "Login not working on mobile",
+    "body": "Hi, I can't login from my mobile device (Chrome). Just a blank screen.",
+    "source": "github",
+    "author": "tester_x",
+    "status": "open"
+  },
+  {
+    "id": "gh-4",
+    "title": "Payment gateway timeout",
+    "body": "Sometimes when a user pays, the Stripe gateway times out and the user gets charged but we don't update the DB. We need a webhook handler.",
+    "source": "github",
+    "author": "finance_lead",
+    "status": "open"
+  }
+]
