@@ -515,6 +515,40 @@ app.post('/api/webhooks/slack', async (req, res) => {
     }
 });
 
+// Helper: Fetch latest release tag from GitHub and compute next version
+async function getNextVersion(): Promise<string> {
+    const token = process.env.GITHUB_TOKEN;
+    const repo = process.env.GITHUB_REPO;
+    if (!token || !repo) return 'v1.0.0';
+
+    try {
+        const response = await fetch(`https://api.github.com/repos/${repo}/releases?per_page=1`, {
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Accept': 'application/vnd.github+json',
+                'X-GitHub-Api-Version': '2022-11-28',
+                'User-Agent': 'Lemma-Triage-Operator'
+            }
+        });
+
+        if (!response.ok) return 'v1.0.0';
+
+        const releases: any[] = await response.json();
+        if (releases.length === 0) return 'v1.0.0';
+
+        // Parse the latest tag (e.g. "v1.2.3-draft-456" → [1, 2, 3])
+        const tag = releases[0].tag_name || '';
+        const match = tag.match(/v?(\d+)\.(\d+)\.(\d+)/);
+        if (!match) return 'v1.0.0';
+
+        const [, major, minor, patch] = match.map(Number);
+        // Bump patch version
+        return `v${major}.${minor}.${patch + 1}`;
+    } catch {
+        return 'v1.0.0';
+    }
+}
+
 // Generate release notes dynamically based on resolved issues
 app.post('/api/release', async (req, res) => {
     try {
@@ -534,7 +568,11 @@ app.post('/api/release', async (req, res) => {
         let readinessScore = 100 - (openP1Count * 25) - (openP2Count * 10);
         if (readinessScore < 0) readinessScore = 0;
 
-        let releaseNotes = `# Release Notes - v1.4.0\n\n`;
+        // Compute next version from latest GitHub release
+        const nextVersion = await getNextVersion();
+        log(`[Version Agent] Next release version: ${nextVersion}`);
+
+        let releaseNotes = `# Release Notes - ${nextVersion}\n\n`;
 
         if (readinessScore < 70) {
             releaseNotes += `> [!WARNING]\n`;
@@ -609,6 +647,9 @@ app.post('/api/release/publish', async (req, res) => {
 
         log(`[GitHub Publisher Agent] Initiating draft release publication...`);
 
+        // Compute next version for the release tag
+        const nextVersion = await getNextVersion();
+
         if (token && repo) {
             log(`[GitHub API] Connecting to repository: ${repo}...`);
             const url = `https://api.github.com/repos/${repo}/releases`;
@@ -623,9 +664,9 @@ app.post('/api/release/publish', async (req, res) => {
                     'User-Agent': 'Lemma-SDK-Hackathon-Triage-Agent'
                 },
                 body: JSON.stringify({
-                    tag_name: `v1.4.0-draft-${Math.floor(100 + Math.random() * 900)}`,
+                    tag_name: nextVersion,
                     target_commitish: 'main',
-                    name: 'v1.4.0 Release Notes (AI Compiled)',
+                    name: `${nextVersion} Release Notes (AI Compiled)`,
                     body: releaseNotes,
                     draft: true,
                     prerelease: false
@@ -646,11 +687,11 @@ app.post('/api/release/publish', async (req, res) => {
             log(`[GitHub Publisher Agent] Running in Local Mode (No keys configured in .env).`);
             log(`-> [Simulated Publication] Draft Release created successfully.`);
             log(`-> Target Repository: dhruv/lemma`);
-            log(`-> Draft URL: https://github.com/dhruv/lemma/releases/tag/v1.4.0-draft-simulated`);
+            log(`-> Draft URL: https://github.com/dhruv/lemma/releases/tag/${nextVersion}-draft-simulated`);
             
             return res.json({
                 success: true,
-                url: 'https://github.com/dhruv/lemma/releases/tag/v1.4.0-draft-simulated',
+                url: `https://github.com/dhruv/lemma/releases/tag/${nextVersion}-draft-simulated`,
                 mode: 'simulation'
             });
         }
